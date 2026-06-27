@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旅遊行程審查平台</title>
+    <title>旅遊行程導覽</title>
     <style>
-        /* 基礎版面設定 */
+        /* --- 基礎版面設定 --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -14,9 +14,45 @@
             color: #333;
             display: flex;
             height: 100vh;
+            overflow: hidden; /* 防止整個頁面捲動，只讓內部 iframe 捲動 */
         }
 
-        /* 左側選單設計 */
+        /* --- 手機版專屬頂部導覽列 (預設隱藏) --- */
+        .mobile-header {
+            display: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .mobile-header h1 {
+            margin: 0 0 0 15px;
+            font-size: 18px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* --- 遮罩層 (手機版選單滑出時的背景變暗效果) --- */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 15;
+            transition: opacity 0.3s;
+        }
+
+        /* --- 左側選單設計 --- */
         .sidebar {
             width: 250px;
             background-color: #ffffff;
@@ -24,7 +60,8 @@
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            z-index: 10;
+            z-index: 20;
+            transition: transform 0.3s ease; /* 側拉動畫效果 */
         }
 
         .sidebar h2 {
@@ -34,7 +71,6 @@
             padding-bottom: 10px;
         }
 
-        /* 切換標籤 (Tags) 按鈕設計 */
         .tabs {
             display: flex;
             flex-direction: column;
@@ -58,18 +94,31 @@
             background-color: #e2e6ea;
         }
 
-        /* 被選中的標籤樣式 */
         .tabs button.active {
             background-color: #007bff;
             color: white;
             border-color: #007bff;
         }
 
-        /* 右側 iframe 顯示區 */
+        /* --- 關閉側邊欄按鈕 (只在手機版顯示) --- */
+        .close-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 24px;
+            cursor: pointer;
+            align-self: flex-end;
+            margin-bottom: 10px;
+        }
+
+        /* --- 右側 iframe 顯示區 --- */
         .main-content {
             flex-grow: 1;
             padding: 20px;
             background-color: #eef2f3;
+            display: flex;
+            flex-direction: column;
         }
 
         iframe {
@@ -79,14 +128,61 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            flex-grow: 1;
+        }
+
+        /* =========================================
+           手機版 RWD 響應式設定 (螢幕寬度小於 768px 時)
+           ========================================= */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* 改為上下排列 */
+            }
+
+            .mobile-header {
+                display: flex; /* 顯示手機版頂部 */
+            }
+
+            .main-content {
+                padding: 10px; /* 手機版邊距縮小 */
+                height: calc(100vh - 50px);
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%); /* 預設往左推至畫面外隱藏 */
+            }
+
+            .sidebar.open {
+                transform: translateX(0); /* 滑出顯示 */
+            }
+
+            .close-btn {
+                display: block; /* 顯示選單內的「X」關閉按鈕 */
+            }
+
+            .overlay.show {
+                display: block; /* 顯示變暗遮罩 */
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
+    <div class="mobile-header">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h1>行程導覽</h1>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">×</button>
         <h2>行程導覽</h2>
-        <div class="tabs" id="tab-container">
+        <div class="tabs">
             <button class="tab-btn active" onclick="changeDay('day1.html', this)">Day 1: 行程</button>
             <button class="tab-btn" onclick="changeDay('day2.html', this)">Day 2: 行程</button>
             <button class="tab-btn" onclick="changeDay('day3.html', this)">Day 3: 行程</button>
@@ -100,17 +196,26 @@
     </div>
 
     <script>
-        // 切換 iframe 網址與按鈕樣式的函數
+        // 1. 切換側拉選單開關的函數
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+
+        // 2. 切換 iframe 網址的函數
         function changeDay(fileName, clickedButton) {
-            // 1. 更改 iframe 的來源網址，讀取對應的 HTML 檔案
+            // 更改 iframe 網址
             document.getElementById('schedule-frame').src = fileName;
 
-            // 2. 移除所有按鈕的 active 狀態 (讓它們變回原本的顏色)
+            // 切換按鈕的藍色反白狀態
             let buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-
-            // 3. 幫剛被點擊的按鈕加上 active 狀態 (讓它變成藍色)
             clickedButton.classList.add('active');
+
+            // 【重點】如果是手機版尺寸 (螢幕寬度 <= 768px)，點擊後自動收起選單
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
         }
     </script>
 </body>
