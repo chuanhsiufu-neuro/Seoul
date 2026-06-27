@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首爾Day 1</title>
+<style>
+  
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans CJK TC', 'WenQuanYi Micro Hei', 'Microsoft JhengHei', Arial, sans-serif;
+    background: #0D0D1A;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: #13131F;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+
+  .header {
+    background: linear-gradient(135deg, #1a1a3e 0%, #2d1b4e 50%, #1a2a4e 100%);
+    padding: 28px 24px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(147,112,219,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .day-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(147,112,219,0.2);
+    border: 1px solid rgba(147,112,219,0.4);
+    color: #c9a8ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .day-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .day-date {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+  }
+
+  .meta-bar {
+    display: flex;
+    gap: 16px;
+    padding: 14px 24px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .meta-item .icon { font-size: 14px; }
+
+  .timeline {
+    padding: 16px 24px 24px;
+  }
+
+  .event {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .event:last-child { padding-bottom: 0; }
+
+  .event:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 37px;
+    top: 36px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(147,112,219,0.3), transparent);
+  }
+
+  .time-col {
+    width: 52px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .time {
+    font-size: 12px;
+    font-weight: 700;
+    color: #9370db;
+    letter-spacing: 0.02em;
+    padding-top: 2px;
+  }
+
+  .dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #9370db;
+    border: 2px solid #2d1b4e;
+    box-shadow: 0 0 10px rgba(147,112,219,0.5);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .event-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .event-emoji { font-size: 16px; }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .tag-highlight {
+    background: rgba(255,215,0,0.12);
+    color: #ffd700;
+    border: 1px solid rgba(255,215,0,0.2);
+  }
+
+  .tag-tip {
+    background: rgba(100,200,255,0.1);
+    color: #80d4ff;
+    border: 1px solid rgba(100,200,255,0.2);
+  }
+
+  .event-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  .note-box {
+    background: rgba(147,112,219,0.08);
+    border: 1px solid rgba(147,112,219,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 6px;
+  }
+
+  .note-box p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+  }
+
+  .star { color: #ffd700; }
+
+  .footer {
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .page-num {
+    font-size: 11px;
+    color: rgba(147,112,219,0.7);
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="day-badge">🌙 DAY 1</div>
+    <div class="day-title">抵達首爾<br>精品炸雞洗塵</div>
+    <div class="day-date">6 / 27（六）</div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item"><span class="icon">🏨</span>住宿：孔德站飯店</div>
+    <div class="meta-item"><span class="icon">🚇</span>AREX 機場快線直達</div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="event">
+      <div class="time-col"><div class="time">19:00</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">✈️</span>抵達仁川機場</div>
+        <div class="event-desc">領取行李，搭乘機場快線（AREX）前往孔德站</div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">21:00</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🏨</span>飯店 Check-in</div>
+        <div class="event-desc">放下行李、整頓，稍作休息</div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">21:30</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🍗</span>PURADAK 炸雞</div>
+        <div class="event-desc">請櫃檯代叫外送，配可樂 / 啤酒</div>
+        <div class="note-box">
+          <p><span class="star">⭐</span> 必點：黑蒜醬油、青陽辣椒美乃滋<br>精品包裝，宵夜首選！</p>
+        </div>
+        <div class="tags">
+          <span class="tag tag-highlight">黑蒜醬油</span>
+          <span class="tag tag-highlight">青陽辣椒美乃滋</span>
+          <span class="tag tag-tip">外送到房</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">首爾 5 天 4 夜</div>
+    <div class="page-num">1 / 5</div>
+  </div>
+</div>
+</body>
+</html>

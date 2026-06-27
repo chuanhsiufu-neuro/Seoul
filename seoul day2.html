@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首爾Day 2</title>
+<style>
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans CJK TC', 'WenQuanYi Micro Hei', 'Microsoft JhengHei', Arial, sans-serif;
+    background: #0D0D1A;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+  }
+  .card {
+    width: 100%; max-width: 420px;
+    background: #13131F; border-radius: 24px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+  .header {
+    background: linear-gradient(135deg, #1a2e1a 0%, #1e3d2a 50%, #1a2a1a 100%);
+    padding: 28px 24px 22px; position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(100,200,120,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .day-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(100,200,120,0.15); border: 1px solid rgba(100,200,120,0.35);
+    color: #90e8a0; font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 10px;
+  }
+  .day-title { font-size: 22px; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: 6px; }
+  .day-date { font-size: 13px; color: rgba(255,255,255,0.5); }
+  .meta-bar {
+    display: flex; gap: 16px; padding: 14px 24px;
+    background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap;
+  }
+  .meta-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.5); }
+  .timeline { padding: 16px 24px 24px; }
+  .event { display: flex; gap: 16px; position: relative; padding-bottom: 20px; }
+  .event:last-child { padding-bottom: 0; }
+  .event:not(:last-child)::before {
+    content: ''; position: absolute; left: 37px; top: 36px; bottom: 0;
+    width: 1px; background: linear-gradient(to bottom, rgba(100,200,120,0.3), transparent);
+  }
+  .time-col { width: 52px; flex-shrink: 0; text-align: right; }
+  .time { font-size: 12px; font-weight: 700; color: #64c878; letter-spacing: 0.02em; padding-top: 2px; }
+  .dot-col { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .dot {
+    width: 12px; height: 12px; border-radius: 50%; background: #64c878;
+    border: 2px solid #1e3d2a; box-shadow: 0 0 10px rgba(100,200,120,0.5);
+    margin-top: 3px; flex-shrink: 0;
+  }
+  .content { flex: 1; min-width: 0; }
+  .event-name {
+    font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 5px;
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  }
+  .event-emoji { font-size: 16px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .tag { font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 500; }
+  .tag-highlight { background: rgba(255,215,0,0.12); color: #ffd700; border: 1px solid rgba(255,215,0,0.2); }
+  .tag-shop { background: rgba(255,150,200,0.12); color: #ffaad4; border: 1px solid rgba(255,150,200,0.2); }
+  .tag-tip { background: rgba(100,200,255,0.1); color: #80d4ff; border: 1px solid rgba(100,200,255,0.2); }
+  .event-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-top: 4px; }
+  .note-box {
+    background: rgba(100,200,120,0.07); border: 1px solid rgba(100,200,120,0.2);
+    border-radius: 10px; padding: 10px 14px; margin-top: 6px;
+  }
+  .note-box p { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+  .star { color: #ffd700; }
+  .footer {
+    background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-text { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .page-num { font-size: 11px; color: rgba(100,200,120,0.8); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="day-badge">✨ DAY 2</div>
+    <div class="day-title">江南變髮<br>聖水洞時髦巡禮</div>
+    <div class="day-date">6 / 28（日）</div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item"><span>🏨</span>住宿：孔德站飯店</div>
+    <div class="meta-item"><span>💡</span>重點：購物 + 韓牛 + 漢江</div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="event">
+      <div class="time-col"><div class="time">11:00</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">✂️</span>江南髮廊沙龍</div>
+        <div class="event-desc">悠閒出發，體驗江南大路韓系完美變髮</div>
+        <div class="tags"><span class="tag tag-tip">11:00 已預約</span></div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">14:00</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🥘</span>聖水馬鈴薯排骨湯</div>
+        <div class="note-box">
+          <p><span class="star">⭐</span> 白種元大推，大塊豬骨、濃郁骨湯<br>靈魂配料：芝麻葉超香</p>
+        </div>
+        <div class="tags">
+          <span class="tag tag-highlight">濃郁骨湯</span>
+          <span class="tag tag-highlight">芝麻葉加持</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">15:30</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🛍️</span>聖水洞時髦購物</div>
+        <div class="event-desc">質感設計師童裝 & 概念選物</div>
+        <div class="tags">
+          <span class="tag tag-shop">29CM KIDS 童裝</span>
+          <span class="tag tag-shop">House of Juuneedu 睡衣</span>
+          <span class="tag tag-shop">Miffy 快閃店</span>
+          <span class="tag tag-highlight">Super Matcha</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">18:30</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🥩</span>大道食堂（往十里本店）</div>
+        <div class="event-desc">頂級鑄鐵鍋，從聖水前往</div>
+        <div class="note-box">
+          <p><span class="star">⭐</span> 必點：1++ 韓牛等心肉<br>靈魂收尾：蘿蔔泡菜炒飯</p>
+        </div>
+        <div class="tags">
+          <span class="tag tag-highlight">1++ 韓牛</span>
+          <span class="tag tag-highlight">蘿蔔泡菜炒飯</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="time-col"><div class="time">20:30</div></div>
+      <div class="dot-col"><div class="dot"></div></div>
+      <div class="content">
+        <div class="event-name"><span class="event-emoji">🌉</span>盤浦大橋彩虹噴泉</div>
+        <div class="event-desc">搭車前往，漢江晚風 × 彩虹噴泉秀</div>
+        <div class="tags"><span class="tag tag-tip">夜景必看</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">首爾 5 天 4 夜</div>
+    <div class="page-num">2 / 5</div>
+  </div>
+</div>
+</body>
+</html>
