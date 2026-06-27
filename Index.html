@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Schedule Review Platform</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* Dashboard Layout */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #eef2f3;
+        }
+
+        /* Sidebar Navigation */
+        .nav-buttons button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Review Section */
+        .review-section {
+            margin-top: 20px;
+        }
+
+        .review-section input, .review-section textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #submit-review {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #submit-review:hover {
+            background-color: #218838;
+        }
+
+        #review-status {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Iframe Styling */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Travel Itinerary</h2>
+            <div class="nav-buttons">
+                <button onclick="loadDay('day1.html')">Day 1</button>
+                <button onclick="loadDay('day2.html')">Day 2</button>
+                <button onclick="loadDay('day3.html')">Day 3</button>
+                <button onclick="loadDay('day4.html')">Day 4</button>
+                <button onclick="loadDay('day5.html')">Day 5</button>
+            </div>
+
+            <hr>
+
+            <div class="review-section">
+                <h3>Leave a Review</h3>
+                <label for="reviewer-name">Name:</label>
+                <input type="text" id="reviewer-name" placeholder="Your name...">
+                
+                <label for="review-text">Feedback on this schedule:</label>
+                <textarea id="review-text" rows="5" placeholder="Write your thoughts here..."></textarea>
+                
+                <button id="submit-review" onclick="submitReview()">Submit Review</button>
+                
+                <div id="review-status"></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <iframe id="schedule-frame" src="day1.html" title="Daily Schedule"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Function to change the iframe source based on sidebar clicks
+        function loadDay(dayFile) {
+            document.getElementById('schedule-frame').src = dayFile;
+            document.getElementById('review-status').innerText = ""; // Clear status on tab switch
+        }
+
+        // Mock function for submitting a review
+        function submitReview() {
+            const name = document.getElementById('reviewer-name').value;
+            const text = document.getElementById('review-text').value;
+            const status = document.getElementById('review-status');
+
+            if(name === "" || text === "") {
+                status.style.color = "red";
+                status.innerText = "Please fill out all fields.";
+                return;
+            }
+
+            status.style.color = "green";
+            status.innerText = "Review submitted successfully!";
+            document.getElementById('review-text').value = ""; // Clear the text area
+        }
+    </script>
+</body>
+</html>
