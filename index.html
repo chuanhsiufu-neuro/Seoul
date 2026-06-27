@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊行程審查平台</title>
+    <style>
+        /* 基礎版面設定 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* 左側選單設計 */
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            font-size: 20px;
+            border-bottom: 2px solid #eef2f3;
+            padding-bottom: 10px;
+        }
+
+        /* 切換標籤 (Tags) 按鈕設計 */
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tabs button {
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .tabs button:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* 被選中的標籤樣式 */
+        .tabs button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        /* 右側 iframe 顯示區 */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background-color: #eef2f3;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>行程導覽</h2>
+        <div class="tabs" id="tab-container">
+            <button class="tab-btn active" onclick="changeDay('day1.html', this)">Day 1: 行程</button>
+            <button class="tab-btn" onclick="changeDay('day2.html', this)">Day 2: 行程</button>
+            <button class="tab-btn" onclick="changeDay('day3.html', this)">Day 3: 行程</button>
+            <button class="tab-btn" onclick="changeDay('day4.html', this)">Day 4: 行程</button>
+            <button class="tab-btn" onclick="changeDay('day5.html', this)">Day 5: 行程</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <iframe id="schedule-frame" src="day1.html" title="每日行程顯示區"></iframe>
+    </div>
+
+    <script>
+        // 切換 iframe 網址與按鈕樣式的函數
+        function changeDay(fileName, clickedButton) {
+            // 1. 更改 iframe 的來源網址，讀取對應的 HTML 檔案
+            document.getElementById('schedule-frame').src = fileName;
+
+            // 2. 移除所有按鈕的 active 狀態 (讓它們變回原本的顏色)
+            let buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. 幫剛被點擊的按鈕加上 active 狀態 (讓它變成藍色)
+            clickedButton.classList.add('active');
+        }
+    </script>
+</body>
+</html>
